@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "./NavBar";
 
 const ViewMyPost = () => {
   const [posts, setPosts] = useState([]);
@@ -39,6 +40,7 @@ const ViewMyPost = () => {
 
   return (
     <div className="container mt-5">
+        <Navbar/>
       <h2 className="text-center mb-4">My Posts</h2>
 
       <div className="row">
