@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
+import CreatePost from './components/CreatePost'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,6 +14,7 @@ function App() {
     <>
       <SignUp/>
       <SignIn/>
+      <CreatePost/>
     </>
   )
 }
