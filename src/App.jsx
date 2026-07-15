@@ -6,6 +6,7 @@ import './App.css'
 import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 import CreatePost from './components/CreatePost'
+import ViewAll from './components/ViewAll'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,6 +16,7 @@ function App() {
       <SignUp/>
       <SignIn/>
       <CreatePost/>
+      <ViewAll/>
     </>
   )
 }
