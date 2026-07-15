@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Navbar from "./NavBar";
 
 const CreatePost = () => {
   const [message, setMessage] = useState("");
@@ -43,6 +44,7 @@ const CreatePost = () => {
 
   return (
     <div className="container mt-5">
+        <Navbar/>
       <div className="card shadow p-4">
         <h2 className="text-center mb-4">Create Post</h2>
 

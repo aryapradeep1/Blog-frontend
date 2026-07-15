@@ -1,87 +1,54 @@
-import React, { useState } from "react";
-import axios from "axios";
 
-const SignIn = () => {
-  const [input, changeInput] = useState({
-    email: "",
-    password: "",
-  });
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import Navbar from './NavBar';
 
-  const inputHandler = (event) => {
-    changeInput({
-      ...input,
-      [event.target.name]: event.target.value,
-    });
+function SignIn() {
+  const navigate = useNavigate();
+  const [input, setInput] = useState({ email: '', password: '' });
+
+  const inputHandler = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const readValue = () => {
-    axios
-      .post("http://localhost:3030/signIn", input)
-      .then((response) => {
-        console.log(response.data);
-
-        if (response.data.status === "success") {
-          // Store userId and token in sessionStorage
-          sessionStorage.setItem("userId", response.data.userId);
-          sessionStorage.setItem("token", response.data.token);
-
-          alert("Login Successful");
-
-          // Clear the form
-          changeInput({
-            email: "",
-            password: "",
-          });
-        } else {
-          alert(response.data.status);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Something went wrong");
-      });
+  const readValues = async () => {
+    try {
+      const response = await axios.post('http://localhost:3030/api/signin', input);
+      if (response.data.status === "success") {
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userId", response.data.userId);
+        navigate('/create');
+      } else {
+        alert("Authentication failure: " + response.data.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
-    <div
-      className="container-fluid d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh", backgroundColor: "#f4f6f9" }}
-    >
-      <div className="card shadow p-4" style={{ width: "400px" }}>
-        <h2 className="text-center mb-4">Sign In</h2>
-
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            name="email"
-            value={input.email}
-            onChange={inputHandler}
-            placeholder="Enter your email"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            name="password"
-            value={input.password}
-            onChange={inputHandler}
-            placeholder="Enter your password"
-          />
-        </div>
-
-        <div className="d-grid">
-          <button className="btn btn-primary" onClick={readValue}>
-            Login
-          </button>
+    <div className="container mt-5">
+        <Navbar/>
+      <div className="row justify-content-center">
+        <div className="col-md-4 border rounded p-4 bg-light shadow-sm">
+          <h2 className="mb-4 text-center">Login Portal</h2>
+          <div className="mb-3">
+            <label className="form-label">Email Address</label>
+            <input className="form-control" name="email" onChange={inputHandler} />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input className="form-control" type="password" name="password" onChange={inputHandler} />
+          </div>
+          <button className="btn btn-primary w-100 mb-3" onClick={readValues}>Sign In</button>
+          <div className="text-center">
+            <Link className="small text-decoration-none" to="/signup">Register</Link>
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default SignIn;
